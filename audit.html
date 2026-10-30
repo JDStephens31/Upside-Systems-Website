@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free automation audit | Upside Systems</title>
+<meta name="description" content="See what repetitive work costs your business, what automation would cost instead, and how your next five years could look.">
+<meta property="og:title" content="Free automation audit | Upside Systems">
+<meta property="og:description" content="See what repetitive work costs your business, what automation would cost instead, and how your next five years could look.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="[YOUR DOMAIN]/audit.html">
+<meta name="theme-color" content="#0B2E1F">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap"><span>Now booking free audits for [MONTH]. Results in about three minutes.</span><a href="audit.html">Start yours</a></div></div>
+<header class="site-header"><div class="wrap header-in">
+<a class="brand" href="index.html" aria-label="Upside Systems home"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#127A4A"/><path d="M14 34 L24 24 L34 34" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24 L24 14 L34 24" fill="none" stroke="#FFD23F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Upside Systems</span></a>
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+<nav class="site-nav" id="site-nav" aria-label="Main">
+<a href="index.html#how">How it works</a>
+<a href="packages.html">Packages</a>
+<a href="about.html">About</a>
+<a class="btn btn-primary btn-sm" href="audit.html">Get your free audit</a>
+</nav>
+</div></header>
+<main id="main" class="audit">
+<ol class="progress" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+<p class="progress-label" id="progress-label">Step 1 of 4</p>
+
+<section class="step" id="step-inputs" aria-labelledby="h-inputs">
+<h1 id="h-inputs" tabindex="-1" data-step-heading>What is busywork costing your business?</h1>
+<p class="lede">Tell us roughly how many hours your team spends on these tasks each week, plus a little about your business. You’ll see your numbers straight away, no sign-up needed.</p>
+<div class="card">
+<div class="row rate">
+<label for="hourly"><strong>Cost of one hour of your team’s time</strong><span class="hint">Include wages, taxes and benefits. $35 is a fair starting point for most small businesses.</span></label>
+<div class="affix"><span aria-hidden="true">$</span><input class="num narrow" id="hourly" type="number" inputmode="decimal" min="0" step="1" value="35"></div>
+</div>
+<div id="areas"></div>
+<p class="footnote">Hours are for your whole team combined. Each task assumes a typical share can be automated, between 60% and 90% depending on the task.</p>
+</div>
+<div class="card">
+<div class="card-head"><h2>About your business</h2></div>
+<div class="row"><label for="revenue">Yearly revenue<span class="hint">A rough figure is fine.</span></label><div class="affix"><span aria-hidden="true">$</span><input class="num wide" id="revenue" type="number" inputmode="numeric" min="0" step="1000" placeholder="500000"></div></div>
+<div class="row"><label for="team">People on your team</label><input class="num" id="team" type="number" inputmode="numeric" min="1" step="1" placeholder="8"></div>
+<div class="row"><label for="growth">Growth you expect each year<span class="hint">Without any changes to how you work.</span></label><div class="affix"><input class="num narrow" id="growth" type="number" inputmode="decimal" step="1" value="10"><span aria-hidden="true">%</span></div></div>
+</div>
+<p class="form-error" id="inputs-error" role="alert" hidden></p>
+<div class="actions"><button class="btn btn-primary" type="button" id="to-hourly">See my results</button></div>
+</section>
+
+<section class="step" id="step-hourly" aria-labelledby="h-hourly" hidden>
+<h2 class="title" id="h-hourly" tabindex="-1" data-step-heading>Here’s what an hour of this work costs you.</h2>
+<p class="lede" id="hourly-lede"></p>
+<div class="compare" aria-live="polite">
+<div class="rate-block"><p class="who">Your team, doing it by hand</p><p class="rate"><span id="theirs-val">$0.00</span><small>an hour</small></p><div class="bar-track"><div class="bar theirs" id="theirs-bar"></div></div></div>
+<div class="rate-block ours reveal" id="ours-block"><p class="who">Upside Systems, automating it</p><p class="rate"><span id="ours-val">$0.00</span><small>an hour</small></p><div class="bar-track"><div class="bar ours" id="ours-bar"></div></div><p class="note" id="ours-note"></p></div>
+<div class="savings reveal" id="savings-block"><h3 id="savings-head"></h3><p id="savings-text"></p></div>
+</div>
+<div class="actions"><button class="btn btn-primary" type="button" id="to-growth">See your five-year outlook</button><button class="btn btn-outline" type="button" data-back="step-inputs">Change my answers</button></div>
+</section>
+
+<section class="step" id="step-growth" aria-labelledby="h-growth" hidden>
+<h2 class="title" id="h-growth" tabindex="-1" data-step-heading>Where your business is heading</h2>
+<p class="lede" id="growth-lede"></p>
+<div class="chart-card">
+<ul class="legend"><li><span class="swatch base" aria-hidden="true"></span>Your current path</li><li class="boost-item" id="legend-boost" style="opacity:0"><span class="swatch boost" aria-hidden="true"></span>With savings and time put to work</li></ul>
+<svg id="chart" role="img" aria-label="Five-year revenue projection"></svg>
+</div>
+<div class="outcome reveal" id="outcome" aria-live="polite"><h3 id="outcome-head"></h3><p id="outcome-text"></p></div>
+<details class="assumptions"><summary>How we worked this out</summary>
+<ul id="assumption-list"></ul>
+<div class="slider"><label for="redirect">Share of freed-up hours spent on growth work <output id="redirect-out" for="redirect"></output></label><input type="range" id="redirect" min="0" max="100" step="10"></div>
+<div class="slider"><label for="reinvest">New revenue from each dollar you reinvest <output id="reinvest-out" for="reinvest"></output></label><input type="range" id="reinvest" min="0" max="3" step="0.25"></div>
+</details>
+<div class="actions"><button class="btn btn-primary" type="button" id="to-book">Book a free call about this</button><button class="btn btn-outline" type="button" data-back="step-hourly">Back</button></div>
+</section>
+
+<section class="step" id="step-book" aria-labelledby="h-book" hidden>
+<div class="book-grid">
+<div class="book-side">
+<h2 class="title" id="h-book" tabindex="-1" data-step-heading>Book your free consultation</h2>
+<div class="book-summary"><p>Your numbers so far</p><dl>
+<div><dt>Hours back each week</dt><dd id="sum-hours"></dd></div>
+<div><dt>Time saved each year</dt><dd id="sum-saved"></dd></div>
+<div><dt>Year 5 revenue outlook</dt><dd id="sum-outlook"></dd></div>
+</dl></div>
+<ol class="next-steps"><li>We review your numbers before the call.</li><li>On the call, we map your three biggest time drains.</li><li>You get a written plan with fixed pricing, whether or not you hire us.</li></ol>
+</div>
+<div id="form-area">
+<form id="consult-form" novalidate>
+<div class="field-pair">
+<div class="field" data-field="name"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required><p class="error" id="name-error">Enter your name so we know who to ask for.</p></div>
+<div class="field" data-field="email"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required><p class="error" id="email-error">Enter an email address like name@company.com.</p></div>
+</div>
+<div class="field-pair">
+<div class="field"><label for="company">Business name <span class="optional">(optional)</span></label><input id="company" name="company" type="text" autocomplete="organization"></div>
+<div class="field"><label for="phone">Phone <span class="optional">(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+</div>
+<div class="field"><label for="message">What’s the task you’d most like off your plate? <span class="optional">(optional)</span></label><textarea id="message" name="message"></textarea></div>
+<p class="consent">Your calculator answers and projection are sent with this request. We only use your details to contact you about your consultation. See our <a href="privacy.html">privacy policy</a>.</p>
+<p class="form-error" id="form-error" role="alert" hidden></p>
+<div class="actions" style="margin-top:0"><button class="btn btn-primary" type="submit" id="submit-btn">Send my numbers and book a call</button><button class="btn btn-outline" type="button" data-back="step-growth">Back</button></div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-in">
+<div class="footer-brand">
+<a class="brand" href="index.html"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 34 L24 24 L34 34" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24 L24 14 L34 24" fill="none" stroke="#FFD23F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Upside Systems</span></a>
+<span>Automation for the work that doesn’t pay you back.</span>
+<a href="mailto:[YOUR EMAIL]">[YOUR EMAIL]</a>
+</div>
+<nav class="footer-col" aria-label="Packages">
+<strong>Packages</strong>
+<a href="packages.html#lead">Lead Engine</a>
+<a href="packages.html#office">Back Office Autopilot</a>
+<a href="packages.html#care">Customer Care Hub</a>
+<a href="packages.html#complete">Upside Complete</a>
+</nav>
+<nav class="footer-col" aria-label="Company">
+<strong>Company</strong>
+<a href="index.html#how">How it works</a>
+<a href="about.html">About</a>
+<a href="audit.html">Free audit</a>
+<a href="privacy.html">Privacy policy</a>
+</nav>
+</div>
+<div class="wrap footer-base">© <span data-year>2026</span> Upside Systems</div>
+</footer>
+<script src="assets/site.js" defer></script>
+<script src="assets/audit.js" defer></script>
+</body>
+</html>
