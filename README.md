@@ -36,14 +36,14 @@ Package prices on `index.html` and `packages.html` are plain text, so update the
 Every placeholder now has real copy, but check these before launch:
 - **Domain and email:** `https://upsidesystems.com` and `hello@upsidesystems.com`
   (in every page footer, `og:url`/canonical tags, `robots.txt`, `sitemap.xml`, `assets/audit.js`).
-- **Founder story** on `index.html` and `about.html` (Jonathan Stephens).
+- **Founder story** on `index.html` and `about.html` (founders Jonathan S. and Joel M.).
 - **Terms:** setup times, three-month minimum then 30 days’ notice, payback promise conditions (`packages.html`).
 - **Privacy policy:** legal name (Upside Systems LLC), vendors (n8n, Google Workspace, HubSpot, Cal.com),
   12-month retention. Have it reviewed for the places you and your clients operate.
 - **Client quote:** the home page shows our promise instead of a testimonial. Swap in a real
   client quote once you have one.
 
-Photos: the founder boxes show a “JS” monogram. To use a photo, replace the
+Photos: the founder boxes show a “JS + JM” monogram. To use a photo, replace the
 `<div class="ph monogram">` with `<img src="assets/your-photo.jpg" alt="...">`.
 
 The logo’s text uses the Schibsted Grotesk font; outline the text in a design
