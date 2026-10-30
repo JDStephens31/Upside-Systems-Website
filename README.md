@@ -5,11 +5,12 @@ A plain static site: HTML, one stylesheet and two small scripts. No build step.
 ## Files
 - `index.html` – home
 - `packages.html` – packages, tiers, Upside Complete, payback promise
-- `audit.html` – the free audit (calculator, cost per hour, 5-year outlook, booking form)
+- `audit.html` – the free audit: intro with the under-5-minutes promise, one page per sector
+  (built from `AREAS` in `assets/audit.js`), business details, then results and booking
 - `about.html`, `privacy.html`, `404.html`
 - `assets/styles.css` – all styling (colors are variables at the top)
 - `assets/audit.js` – calculator logic, prices and the form webhook
-- `assets/site.js` – mobile menu, top-bar month and footer year
+- `assets/site.js` – mobile menu, scroll animations, top-bar month and footer year
 - `robots.txt`, `sitemap.xml` – for search engines (update the domain if it changes)
 - `assets/logo.svg`, `assets/mark.svg`, `assets/favicon.svg`
 

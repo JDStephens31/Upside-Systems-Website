@@ -33,6 +33,24 @@
     if (mobile.addEventListener) mobile.addEventListener("change", onChange); else mobile.addListener(onChange);
   }
 
+  // Scroll reveals: the head script adds html.motion when motion is welcome
+  if (document.documentElement.classList.contains("motion")) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    var reveal = ".section .h2, .head-row, .scenarios li, .jobs > div, .industries > div, .timeline li, .price-row, .tier, " +
+      ".principles > div, .faq details, .included li, .pkg-intro, .complete > div, .promise, .story > *, .founder > *, " +
+      ".quote-in > *, .statement p, .cta-in > *, .table-box, .page-hero > *, .prose > *, mark";
+    document.querySelectorAll(reveal).forEach(function (n) {
+      if (n.closest(".hero, .audit")) return;
+      var sibs = Array.prototype.filter.call(n.parentNode.children, function (c) { return c.matches(reveal); });
+      n.style.setProperty("--d", Math.min(sibs.indexOf(n) * 0.08, 0.4) + "s");
+      n.classList.add("anim");
+      io.observe(n);
+    });
+    document.querySelectorAll(".flow, .demo, .report").forEach(function (n) { io.observe(n); });
+  }
+
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   document.querySelectorAll("[data-month]").forEach(function (n) { n.textContent = months[new Date().getMonth()]; });
   document.querySelectorAll("[data-year]").forEach(function (n) { n.textContent = new Date().getFullYear(); });

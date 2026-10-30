@@ -20,12 +20,14 @@ var CONFIG = {
 
 var AREAS = [
   { id: "sales", title: "Sales and leads", pkg: "Lead Engine",
+    question: "How much of your week goes into chasing leads?",
     tiers: { Starter: [1500, 250], Growth: [3500, 500], Scale: [7500, 1000] },
     tasks: [
       { id: "lead-entry", label: "Entering leads into your CRM or spreadsheet", rate: 0.85 },
       { id: "lead-followup", label: "Following up with new leads", rate: 0.70 },
       { id: "scheduling", label: "Booking and confirming appointments", rate: 0.75 } ] },
   { id: "finance", title: "Finance and admin", pkg: "Back Office Autopilot",
+    question: "How much of your week goes into invoices and paperwork?",
     tiers: { Starter: [1200, 200], Growth: [3000, 450], Scale: [6500, 900] },
     tasks: [
       { id: "invoicing", label: "Creating and sending invoices", rate: 0.85 },
@@ -33,6 +35,7 @@ var AREAS = [
       { id: "receipts", label: "Logging receipts and bills", rate: 0.80 },
       { id: "reports", label: "Putting together weekly reports", rate: 0.75 } ] },
   { id: "care", title: "Customer care", pkg: "Customer Care Hub",
+    question: "How much of your week goes into answering customers?",
     tiers: { Starter: [1500, 250], Growth: [4000, 600], Scale: [8000, 1200] },
     tasks: [
       { id: "faq", label: "Answering the same customer questions", rate: 0.60 },
@@ -47,7 +50,9 @@ var money2 = new Intl.NumberFormat(CONFIG.locale, { style: "currency", currency:
 var compact = new Intl.NumberFormat(CONFIG.locale, { style: "currency", currency: CONFIG.currency, notation: "compact", maximumFractionDigits: 1 });
 var num = new Intl.NumberFormat(CONFIG.locale, { maximumFractionDigits: 1 });
 var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-var STEPS = ["step-inputs", "step-hourly", "step-growth", "step-book"];
+var QUESTION_STEPS = AREAS.map(function (a) { return "step-" + a.id; }).concat("step-business");
+var STEPS = ["step-intro"].concat(QUESTION_STEPS, ["step-hourly", "step-growth", "step-book"]);
+var QUICK_HOURS = [0, 1, 2, 5, 10];
 var state = { r: null, proj: null, redirect: CONFIG.redirectShare, reinvest: CONFIG.reinvestReturn, timers: [], frames: [] };
 
 function $(id) { return document.getElementById(id); }
@@ -72,25 +77,75 @@ function val(id) { var v = parseFloat($(id).value); return isFinite(v) && v > 0 
 
 document.querySelectorAll("[data-brand]").forEach(function (n) { n.textContent = CONFIG.brand; });
 
-/* ---- Build task rows ---- */
+/* ---- Build one page per area, plus the intro list and progress bar ---- */
 (function buildAreas() {
-  var host = $("areas");
-  AREAS.forEach(function (area) {
-    var sec = el("section", { "class": "section-split", "aria-labelledby": "h-" + area.id });
+  var host = $("area-steps"), list = $("intro-steps");
+  AREAS.forEach(function (area, i) {
+    var id = "step-" + area.id;
+    var sec = el("section", { "class": "step", id: id, "aria-labelledby": "h-" + area.id, hidden: "" });
+    sec.appendChild(el("p", { "class": "step-kicker" }, area.title));
+    sec.appendChild(el("h2", { "class": "title", id: "h-" + area.id, tabindex: "-1", "data-step-heading": "" }, area.question));
+    sec.appendChild(el("p", { "class": "lede" }, "Roughly how many hours a week does your whole team spend on each of these? Leave it at 0 if it doesn’t apply."));
+    var card = el("div", { "class": "card" });
     var head = el("div", { "class": "card-head" });
-    head.appendChild(el("h2", { id: "h-" + area.id }, area.title));
+    head.appendChild(el("h3", null, "Tasks"));
     head.appendChild(el("span", { "class": "col", "aria-hidden": "true" }, "Hours a week"));
-    sec.appendChild(head);
+    card.appendChild(head);
+    var total = el("p", { "class": "area-total", "aria-live": "polite" });
+    function updateTotal() {
+      var h = 0; area.tasks.forEach(function (t) { h += val("t-" + t.id); });
+      total.textContent = h ? "That’s " + num.format(h) + " hours a week on " + area.title.toLowerCase() + "." : "";
+      total.classList.toggle("in", h > 0);
+    }
     area.tasks.forEach(function (t) {
-      var row = el("div", { "class": "row" });
+      var row = el("div", { "class": "row task-row" });
       var lab = el("label", { "for": "t-" + t.id }, t.label);
       lab.appendChild(el("span", { "class": "visually-hidden" }, ", hours a week"));
       var inp = el("input", { "class": "num", id: "t-" + t.id, type: "number", inputmode: "decimal", min: "0", step: "0.5", placeholder: "0" });
-      inp.addEventListener("input", function () { row.classList.toggle("has-hours", val(inp.id) > 0); });
-      row.appendChild(lab); row.appendChild(inp); sec.appendChild(row);
+      var quick = el("div", { "class": "quick", role: "group", "aria-label": "Quick picks for " + t.label.toLowerCase() });
+      QUICK_HOURS.forEach(function (q) {
+        var b = el("button", { type: "button", "aria-pressed": "false", "aria-label": q + " hours" }, q === QUICK_HOURS[QUICK_HOURS.length - 1] ? q + "+" : String(q));
+        b.addEventListener("click", function () { inp.value = String(q); inp.dispatchEvent(new Event("input")); });
+        quick.appendChild(b);
+      });
+      inp.addEventListener("input", function () {
+        var v = val(inp.id), typed = inp.value !== "";
+        row.classList.toggle("has-hours", v > 0);
+        quick.querySelectorAll("button").forEach(function (b, k) { b.setAttribute("aria-pressed", String(typed && QUICK_HOURS[k] === v)); });
+        updateTotal();
+      });
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); next.click(); } });
+      var field = el("div", { "class": "task-field" });
+      field.appendChild(quick); field.appendChild(inp);
+      row.appendChild(lab); row.appendChild(field); card.appendChild(row);
     });
+    sec.appendChild(card);
+    sec.appendChild(total);
+    var actions = el("div", { "class": "actions" });
+    var next = el("button", { "class": "btn btn-primary", type: "button" }, i < AREAS.length - 1 ? "Next: " + AREAS[i + 1].title.toLowerCase() : "Next: about your business");
+    next.addEventListener("click", function () { goTo(STEPS[STEPS.indexOf(id) + 1]); });
+    var back = el("button", { "class": "btn btn-outline", type: "button" }, "Back");
+    back.addEventListener("click", function () { goTo(STEPS[STEPS.indexOf(id) - 1]); });
+    actions.appendChild(next); actions.appendChild(back);
+    sec.appendChild(actions);
     host.appendChild(sec);
+
+    var li = el("li");
+    li.appendChild(el("strong", null, area.title));
+    li.appendChild(el("span", null, area.tasks.length + " quick questions"));
+    list.appendChild(li);
   });
+  var last = el("li");
+  last.appendChild(el("strong", null, "Your business"));
+  last.appendChild(el("span", null, "Hourly cost, revenue and team size"));
+  list.appendChild(last);
+  var res = el("li", { "class": "result" });
+  res.appendChild(el("strong", null, "Your results"));
+  res.appendChild(el("span", null, "Cost per hour, savings and a five-year outlook"));
+  list.appendChild(res);
+
+  var bar = $("progress");
+  STEPS.slice(1).forEach(function () { bar.appendChild(el("li")); });
 })();
 
 /* ---- Maths ---- */
@@ -142,12 +197,24 @@ function project(r, redirect, reinvest) {
 }
 
 /* ---- Navigation ---- */
-function goTo(id) {
+var current = "step-intro";
+function goTo(id, fromHistory) {
+  // Results steps need answers; fall back to the start if someone lands there without them
+  if (STEPS.indexOf(id) > STEPS.indexOf("step-business") && !state.r) id = "step-business";
   clearTimers();
-  STEPS.forEach(function (s) { $(s).hidden = s !== id; });
-  var idx = STEPS.indexOf(id);
-  document.querySelectorAll(".progress li").forEach(function (li, i) { li.classList.toggle("done", i <= idx); });
-  $("progress-label").textContent = "Step " + (idx + 1) + " of " + STEPS.length;
+  var idx = STEPS.indexOf(id), dir = idx >= STEPS.indexOf(current) ? "fwd" : "back";
+  current = id;
+  STEPS.forEach(function (s) { var n = $(s); n.hidden = s !== id; n.classList.remove("enter-fwd", "enter-back"); });
+  if (!reduceMotion) { void $(id).offsetWidth; $(id).classList.add("enter-" + dir); }
+  $("main").classList.toggle("on-intro", id === "step-intro");
+  document.querySelectorAll(".progress li").forEach(function (li, i) { li.classList.toggle("done", i < idx); });
+  var q = QUESTION_STEPS.indexOf(id), label = "";
+  if (q >= 0) {
+    var left = QUESTION_STEPS.length - q;
+    label = "Question " + (q + 1) + " of " + QUESTION_STEPS.length + " · about " + left + (left === 1 ? " minute" : " minutes") + " left";
+  } else if (idx > 0) label = "Your results · " + (idx - QUESTION_STEPS.length) + " of 3";
+  $("progress-label").textContent = label;
+  if (!fromHistory && window.history && history.pushState) history.pushState({ step: id }, "");
   window.scrollTo(0, 0);
   var h = document.querySelector("#" + id + " [data-step-heading]");
   if (h) h.focus({ preventScroll: true });
@@ -158,11 +225,21 @@ function goTo(id) {
 document.querySelectorAll("[data-back]").forEach(function (b) {
   b.addEventListener("click", function () { goTo(b.getAttribute("data-back")); });
 });
+// Phone and browser back buttons move between steps instead of leaving the page
+if (window.history && history.replaceState) history.replaceState({ step: "step-intro" }, "");
+window.addEventListener("popstate", function (e) { goTo(e.state && e.state.step || "step-intro", true); });
+$("main").classList.add("on-intro");
+
+$("start-audit").addEventListener("click", function () { goTo(QUESTION_STEPS[0]); });
+$("business-back").addEventListener("click", function () { goTo(QUESTION_STEPS[QUESTION_STEPS.length - 2]); });
+["hourly", "revenue", "team", "growth"].forEach(function (n) {
+  $(n).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("to-hourly").click(); } });
+});
 
 $("to-hourly").addEventListener("click", function () {
   var r = calculate(), errs = [];
   if (!r.hourlyCost) errs.push("Enter what an hour of your team’s time costs.");
-  if (!r.totalHours) errs.push("Add hours to at least one task.");
+  if (!r.totalHours) errs.push("Go back and add hours to at least one task.");
   if (!r.revenue) errs.push("Enter your yearly revenue.");
   if (!r.team) errs.push("Enter how many people are on your team.");
   var box = $("inputs-error");
