@@ -209,10 +209,6 @@ h1,h2,h3{text-wrap:balance}
 .price-row .what{color:var(--muted)}
 .price-row .go{color:var(--green);font-weight:700;margin-left:8px}
 
-/* Founder note */
-.founder{display:flex;flex-wrap:wrap;gap:48px 80px;align-items:center}
-.founder .copy{flex:1 1 520px;min-width:0}
-.founder .ph{flex:0 1 380px;aspect-ratio:4/5;min-width:260px;background:var(--white)}
 .monogram{flex-direction:column;gap:18px;border:0;background:var(--green) !important;color:var(--white);position:relative;overflow:hidden;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px) !important;background-size:32px 32px !important;border-radius:6px}
 .monogram span{font-size:clamp(64px,8vw,104px);white-space:nowrap;font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--yellow)}
 .monogram span em{font-style:normal;color:var(--white);opacity:.55;margin:0 .12em;font-weight:600}

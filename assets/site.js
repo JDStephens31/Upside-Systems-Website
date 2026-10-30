@@ -39,7 +39,7 @@
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
     var reveal = ".section .h2, .head-row, .scenarios li, .jobs > div, .industries > div, .timeline li, .price-row, .tier, " +
-      ".principles > div, .faq details, .included li, .pkg-intro, .complete > div, .promise, .story > *, .founder > *, " +
+      ".principles > div, .faq details, .included li, .pkg-intro, .complete > div, .promise, .story > *, " +
       ".quote-in > *, .statement p, .cta-in > *, .table-box, .page-hero > *, .prose > *, mark";
     document.querySelectorAll(reveal).forEach(function (n) {
       if (n.closest(".hero, .audit")) return;
