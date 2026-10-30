@@ -35,7 +35,7 @@ Package prices on `index.html` and `packages.html` are plain text, so update the
 
 ## Content that was filled in with best guesses
 Every placeholder now has real copy, but check these before launch:
-- **Domain and email:** `https://upsidesystems.com` and `hello@upsidesystems.com`
+- **Domain and email (confirmed):** `https://upsidesys.com` and `consultation@upsidesys.com`
   (in every page footer, `og:url`/canonical tags, `robots.txt`, `sitemap.xml`, `assets/audit.js`).
 - **Founder story** on `index.html` and `about.html` (founders Jonathan S. and Joel M.).
 - **Terms:** setup times, three-month minimum then 30 days’ notice, payback promise conditions (`packages.html`).

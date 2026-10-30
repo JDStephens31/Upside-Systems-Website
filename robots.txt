@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://upsidesystems.com/sitemap.xml
+Sitemap: https://upsidesys.com/sitemap.xml

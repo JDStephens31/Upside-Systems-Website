@@ -6,7 +6,7 @@ var CONFIG = {
   // Paste your n8n Webhook node's production URL here. Leave empty and the form
   // opens a pre-filled email to contactEmail instead, so no request is lost.
   webhookUrl: "",
-  contactEmail: "hello@upsidesystems.com",
+  contactEmail: "consultation@upsidesys.com",
   currency: "USD",
   locale: "en-US",
   weeksPerYear: 52,
