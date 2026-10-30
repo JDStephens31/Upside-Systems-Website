@@ -9,7 +9,7 @@ A plain static site: HTML, one stylesheet and two small scripts. No build step.
   (built from `AREAS` in `assets/audit.js`), business details, then results and booking
 - `about.html`, `privacy.html`, `404.html`
 - `assets/styles.css` – all styling (colors are variables at the top)
-- `assets/audit.js` – calculator logic, prices and the form webhook
+- `assets/audit.js` – calculator logic, prices and where booking requests are sent
 - `assets/site.js` – mobile menu, scroll animations, top-bar month and footer year
 - `robots.txt`, `sitemap.xml` – for search engines (update the domain if it changes)
 - `assets/logo.svg`, `assets/mark.svg`, `assets/favicon.svg`
@@ -19,14 +19,26 @@ Any static host works. The quickest:
 - **Netlify:** drag this folder onto app.netlify.com/drop.
 - **Cloudflare Pages:** create a project, upload the folder, connect your domain.
 
-## Connect the booking form to n8n
+## Booking form email
+Booking requests go straight to `contactEmail` (consultation@upsidesys.com) through
+[FormSubmit](https://formsubmit.co), a free relay with no account. Visitors never leave the page.
+
+**One-time activation:** the very first request triggers an email from FormSubmit
+to consultation@upsidesys.com. Click its activation link, and every request after that
+arrives as a table with the visitor’s details and audit numbers. Do a test
+booking on the live site right after launch so the activation isn’t waiting on a real lead.
+Requests sent before activation show the visitor an error with your email address.
+
+Optional: after activating, FormSubmit can give you a random alias to use in place
+of the address, so it isn’t visible in `assets/audit.js`.
+
+## Also send bookings to n8n (optional)
 1. In n8n, add a **Webhook** node (method POST) and copy its production URL.
 2. Open `assets/audit.js` and paste it into `webhookUrl` in the `CONFIG` block.
 3. In the Webhook node, allow your site's domain (CORS / allowed origins).
 
-The form sends JSON with `contact`, `business`, `estimate` and `projection`.
-Until a URL is set, the form opens the visitor’s email app with their details and
-audit numbers pre-filled, addressed to `contactEmail` in the same `CONFIG` block.
+The webhook gets JSON with `contact`, `business`, `estimate` and `projection`,
+in addition to the email.
 
 ## Change prices or assumptions
 Everything is in the `CONFIG` and `AREAS` blocks at the top of `assets/audit.js`
@@ -39,7 +51,7 @@ Every placeholder now has real copy, but check these before launch:
   (in every page footer, `og:url`/canonical tags, `robots.txt`, `sitemap.xml`, `assets/audit.js`).
 - **Founder story** on `index.html` and `about.html` (founders Jonathan S. and Joel M.).
 - **Terms:** setup times, three-month minimum then 30 days’ notice, payback promise conditions (`packages.html`).
-- **Privacy policy:** legal name (Upside Systems LLC), vendors (n8n, Google Workspace, HubSpot, Cal.com),
+- **Privacy policy:** legal name (Upside Systems LLC), vendors (FormSubmit, n8n, Google Workspace, HubSpot, Cal.com),
   12-month retention. Have it reviewed for the places you and your clients operate.
 - **Client quote:** the home page shows our promise instead of a testimonial. Swap in a real
   client quote once you have one.

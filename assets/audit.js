@@ -1,12 +1,14 @@
 /* Upside Systems free audit: calculator, projection and booking form.
-   Edit CONFIG and AREAS below; paste your n8n webhook URL into webhookUrl. */
+   Edit CONFIG and AREAS below. */
 /* ===== Settings you can edit ===== */
 var CONFIG = {
   brand: "Upside Systems",
-  // Paste your n8n Webhook node's production URL here. Leave empty and the form
-  // opens a pre-filled email to contactEmail instead, so no request is lost.
-  webhookUrl: "",
+  // Booking requests are emailed to contactEmail through FormSubmit (formsubmit.co).
+  // The first request sends an activation email to that address; click it once.
   contactEmail: "consultation@upsidesys.com",
+  emailEndpoint: "https://formsubmit.co/ajax/",
+  // Optional: also send the full JSON to an n8n Webhook node's production URL.
+  webhookUrl: "",
   currency: "USD",
   locale: "en-US",
   weeksPerYear: 52,
@@ -477,41 +479,55 @@ $("consult-form").addEventListener("submit", function (e) {
 
   var btn = $("submit-btn"), errBox = $("form-error");
   errBox.hidden = true; btn.disabled = true; btn.textContent = "Sending…";
-  var send = CONFIG.webhookUrl
-    ? fetch(CONFIG.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-        .then(function (res) { if (!res.ok) throw new Error("status " + res.status); })
-    : new Promise(function (resolve) {
-        var c = payload.contact, e = payload.estimate;
-        var body = [
-          "Name: " + c.name, "Email: " + c.email,
-          c.company ? "Business: " + c.company : "", c.phone ? "Phone: " + c.phone : "",
-          c.message ? "Task to automate: " + c.message : "",
-          "\nMy audit numbers:",
-          "- Hours on these tasks each week: " + num.format(e.totalHoursPerWeek),
-          "- Hours that could come back each week: " + num.format(e.reclaimableHoursPerWeek),
-          "- Yearly cost of this work: " + money0.format(e.annualCost),
-          "- Yearly savings estimate: " + money0.format(e.annualSavings),
-          "- Suggested packages: " + (e.suggestedPackages || []).map(function (p) { return p.name + " (" + p.tier + ")"; }).join(", "),
-          "- Yearly revenue: " + (r.revenue ? money0.format(r.revenue) : "not given") + ", team size: " + (r.team || "not given")
-        ].filter(Boolean).join("\n");
-        window.location.href = "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("Free audit: " + (c.company || c.name)) + "&body=" + encodeURIComponent(body);
-        payload.viaEmail = true;
-        setTimeout(resolve, 400);
-      });
+  // The email you receive: one readable row per field
+  var c = payload.contact, e = payload.estimate;
+  var emailFields = {
+    _subject: "New free audit: " + (c.company || c.name),
+    _template: "table",
+    _replyto: c.email,
+    _captcha: "false",
+    "Name": c.name,
+    "Email": c.email,
+    "Business": c.company || "Not given",
+    "Phone": c.phone || "Not given",
+    "Task they most want off their plate": c.message || "Not given",
+    "Hours on these tasks each week": num.format(e.totalHoursPerWeek),
+    "Hours that could come back each week": num.format(e.reclaimableHoursPerWeek),
+    "Hourly cost of their team": money2.format(r.hourlyCost),
+    "Yearly cost of this work": money0.format(e.annualCost),
+    "Yearly savings estimate": money0.format(e.annualSavings),
+    "Suggested packages": (e.suggestedPackages || []).map(function (p) { return p.name + " (" + p.tier + ")"; }).join(", ") || "None",
+    "Yearly revenue": r.revenue ? money0.format(r.revenue) : "Not given",
+    "Team size": r.team || "Not given",
+    "Expected growth": pct(r.growth) + " a year",
+    "Year 5 revenue outlook": money0.format(p.boost[CONFIG.years]),
+    "Hours by task": AREAS.map(function (a) {
+      return a.tasks.filter(function (t) { return r.tasks[t.id]; }).map(function (t) { return t.label + ": " + num.format(r.tasks[t.id]) + " h"; }).join("; ");
+    }).filter(Boolean).join("; ")
+  };
+  function post(url, data) {
+    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data) })
+      .then(function (res) { if (!res.ok) throw new Error("status " + res.status); return res.json().catch(function () { return {}; }); });
+  }
+  // Bots fill the hidden field; humans never see it
+  var isBot = form.elements._honey && form.elements._honey.value;
+  var send = isBot ? Promise.resolve() : post(CONFIG.emailEndpoint + CONFIG.contactEmail, emailFields)
+    .then(function (json) { if (json.success === false || json.success === "false") throw new Error(json.message || "not sent"); });
+  if (CONFIG.webhookUrl && !isBot) post(CONFIG.webhookUrl, payload).catch(function () {});
 
   send.then(function () {
     var area = $("form-area"); area.textContent = "";
     var box = el("div", { "class": "success", role: "status" });
-    var first = payload.contact.name.split(" ")[0];
-    var h = el("h3", { tabindex: "-1" }, payload.viaEmail ? "Almost there, " + first + ". Just press send." : "Thanks, " + first + ". Your numbers are on their way to us.");
+    var h = el("h3", { tabindex: "-1" }, "Thanks, " + c.name.split(" ")[0] + ". Your numbers are on their way to us.");
     box.appendChild(h);
-    box.appendChild(el("p", null, payload.viaEmail
-      ? "Your email app should open with your numbers filled in. Press send and we’ll reply to " + payload.contact.email + " within one business day with times for your call. If nothing opened, email " + CONFIG.contactEmail + "."
-      : "We’ll email " + payload.contact.email + " within one business day with times for your call."));
+    box.appendChild(el("p", null, "We’ll email " + c.email + " within one business day with times for your call."));
     area.appendChild(box); h.focus();
   }).catch(function () {
     btn.disabled = false; btn.textContent = "Send my numbers and book a call";
-    errBox.textContent = "Your request didn’t send. Check your connection and try again, or email us at " + CONFIG.contactEmail + ".";
+    errBox.textContent = "";
+    errBox.appendChild(document.createTextNode("Your request didn’t send. Check your connection and try again, or email us at "));
+    errBox.appendChild(el("a", { href: "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("Free audit: " + (c.company || c.name)) }, CONFIG.contactEmail));
+    errBox.appendChild(document.createTextNode("."));
     errBox.hidden = false;
   });
 });
