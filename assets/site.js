@@ -51,6 +51,50 @@
     document.querySelectorAll(".flow, .demo, .report").forEach(function (n) { io.observe(n); });
   }
 
+  // Automation flow: one connector line through every node. Straight along a row;
+  // where the row wraps it curves out, back along the gap and into the next row.
+  function drawFlow(flow) {
+    var R = 10, PAD = 16, NS = "http://www.w3.org/2000/svg";
+    var old = flow.querySelector(".flow-line"); if (old) old.remove();
+    flow.classList.add("drawn");
+    var spans = Array.prototype.slice.call(flow.querySelectorAll(".flow-node span"));
+    var top = function (n) { return n.getBoundingClientRect().top; };
+    flow.classList.remove("wrapped");
+    flow.classList.toggle("wrapped", spans.some(function (n) { return Math.abs(top(n) - top(spans[0])) > 4; }));
+    var box = flow.getBoundingClientRect();
+    var rects = spans.map(function (n) {
+      var r = n.getBoundingClientRect();
+      return { l: r.left - box.left, r: r.right - box.left, t: r.top - box.top, b: r.bottom - box.top, cx: (r.left + r.right) / 2 - box.left, cy: (r.top + r.bottom) / 2 - box.top };
+    });
+    var d = "M" + rects[0].cx + " " + rects[0].cy;
+    for (var i = 1; i < rects.length; i++) {
+      var a = rects[i - 1], b = rects[i];
+      if (Math.abs(a.cy - b.cy) < 4) { d += " L" + b.cx + " " + b.cy; continue; }
+      var right = a.r + PAD, left = b.l - PAD, mid = (a.b + b.t) / 2;
+      d += " L" + (right - R) + " " + a.cy + " Q" + right + " " + a.cy + " " + right + " " + (a.cy + R) +
+           " L" + right + " " + (mid - R) + " Q" + right + " " + mid + " " + (right - R) + " " + mid +
+           " L" + (left + R) + " " + mid + " Q" + left + " " + mid + " " + left + " " + (mid + R) +
+           " L" + left + " " + (b.cy - R) + " Q" + left + " " + b.cy + " " + (left + R) + " " + b.cy +
+           " L" + b.cx + " " + b.cy;
+    }
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "flow-line"); svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("width", box.width); svg.setAttribute("height", box.height);
+    var path = document.createElementNS(NS, "path");
+    path.setAttribute("d", d);
+    svg.appendChild(path);
+    flow.insertBefore(svg, flow.firstChild);
+    path.style.setProperty("--len", Math.ceil(path.getTotalLength()));
+  }
+  var flows = document.querySelectorAll(".flow");
+  if (flows.length) {
+    var redraw = function () { flows.forEach(drawFlow); };
+    redraw();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+    var flowT;
+    window.addEventListener("resize", function () { clearTimeout(flowT); flowT = setTimeout(redraw, 120); });
+  }
+
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   document.querySelectorAll("[data-month]").forEach(function (n) { n.textContent = months[new Date().getMonth()]; });
   document.querySelectorAll("[data-year]").forEach(function (n) { n.textContent = new Date().getFullYear(); });

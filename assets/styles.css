@@ -130,6 +130,13 @@ h1,h2,h3{text-wrap:balance}
 .flow-node span{background:var(--white);border:1.5px solid var(--ink);border-radius:8px;padding:8px 14px;font-size:15px;font-weight:700;white-space:nowrap}
 .flow-node:last-child span{background:var(--yellow)}
 .flow-node:not(:last-child)::after{content:"";width:28px;height:1.5px;background:var(--ink);display:block}
+/* Once site.js draws the connector as one SVG line, it routes around wrapped rows */
+.flow.drawn{position:relative;column-gap:28px}
+.flow.drawn .flow-node::after{display:none}
+.flow.drawn.wrapped{row-gap:32px;padding:0 16px}
+.flow.drawn .flow-node span{position:relative;z-index:1}
+.flow-line{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;z-index:0}
+.flow-line path{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
 .demo{display:flex;flex-wrap:wrap;gap:32px 48px;align-items:flex-start}
 .email{flex:1 1 440px;min-width:0;background:var(--white);border:1px solid var(--rule-mid);border-radius:10px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(11,46,31,.4)}
 .email-bar{background:#F3F5F4;padding:10px 16px;display:flex;gap:6px;border-bottom:1px solid var(--rule)}
@@ -504,6 +511,8 @@ details.assumptions li{margin-bottom:6px}
   html.motion .flow .flow-node::after{transform:scaleX(0);transform-origin:left;transition:transform .3s}
   html.motion .flow.in .flow-node::after{transform:scaleX(1)}
   html.motion .flow.in .flow-node span{animation:pop .4s both}
+  html.motion .flow .flow-line path{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.4,1) .1s}
+  html.motion .flow.in .flow-line path{stroke-dashoffset:0}
   html.motion .flow .flow-node:nth-child(2) span,html.motion .flow .flow-node:nth-child(1)::after{transition-delay:.3s;animation-delay:.3s}
   html.motion .flow .flow-node:nth-child(3) span,html.motion .flow .flow-node:nth-child(2)::after{transition-delay:.6s;animation-delay:.6s}
   html.motion .flow .flow-node:nth-child(4) span,html.motion .flow .flow-node:nth-child(3)::after{transition-delay:.9s;animation-delay:.9s}
