@@ -644,3 +644,16 @@ html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
 .inc-list li{display:flex;gap:10px;align-items:flex-start}
 .inc-list svg{flex:none;margin-top:5px}
 .included .inc-list{border:0}.included .inc-list li{padding:0;border:0}
+
+/* Use cases on the home page */
+.uses{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:20px}
+.use{border:1.5px solid var(--ink);border-radius:6px;padding:24px;display:flex;flex-direction:column;gap:14px;background:var(--white)}
+.use-tag{margin:0;font-size:14px;font-weight:700;color:var(--green)}
+.use h3{margin:0;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.use-steps{list-style:none;margin:0;padding:0;counter-reset:step;display:flex;flex-direction:column;gap:10px;font-size:16px}
+.use-steps li{counter-increment:step;position:relative;padding-left:36px;min-height:26px;display:flex;align-items:center}
+.use-steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--pale-green);color:var(--green);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.use-steps li:not(:last-child)::after{content:"";position:absolute;left:12px;top:28px;bottom:-10px;width:2px;background:var(--rule-mid)}
+.use-steps li:last-child::before{background:var(--yellow);color:var(--ink)}
+.use-result{margin:0;font-weight:700;padding:10px 12px;background:var(--yellow-soft);border-radius:4px;font-size:16px}
+.use .link-strong{margin-top:auto;align-self:flex-start}
