@@ -37,7 +37,7 @@
 <section class="wrap page-hero">
 <h1 class="h1">Pick the part of your business that eats the most time.</h1>
 <p class="lede" style="max-width:660px">Every package is a one-time setup fee plus a monthly fee. Both are fixed, and every tier comes fully looked after, from the first workflow map to the monthly results report.</p>
-<nav class="chips" aria-label="Jump to a package"><a href="#lead">Lead Engine</a><a href="#office">Back Office Autopilot</a><a href="#care">Customer Care Hub</a><a class="dark" href="#complete">Upside Complete</a></nav>
+<nav class="chips" aria-label="Jump to a package"><a href="#lead">Lead Engine</a><a href="#office">Back Office Autopilot</a><a href="#care">Customer Care Hub</a><a class="dark" href="#complete">Upside Complete</a><a href="#custom">Build your own</a></nav>
 </section>
 
 <section class="bg-mist" aria-labelledby="h-included"><div class="wrap section included">
@@ -77,6 +77,31 @@
 </div>
 </div></section>
 
+<section class="wrap section builder-sec" id="custom" aria-labelledby="h-custom">
+<div class="head-row"><h2 class="h2" id="h-custom">Build your own package</h2><p>Need a few things from each area rather than a whole tier? Pick exactly the features you want, choose a support level and see your price as you go.</p></div>
+<div id="builder"><noscript><p class="muted">The package builder needs JavaScript. Email <a href="mailto:consultation@upsidesys.com?subject=Custom%20package">consultation@upsidesys.com</a> with the features you want and we’ll price it for you.</p></noscript></div>
+<p class="b-foot muted">Every custom package includes everything listed under “Included in every package”: process mapping, setup, training, 24/7 monitoring, monthly results reports, the 30-day tune-up and the payback promise. Prices are fixed once we confirm them after your workflow map call.</p>
+<div id="b-form-area" hidden>
+<form id="b-form" novalidate aria-labelledby="b-form-h">
+<h3 id="b-form-h" tabindex="-1">Send us your package</h3>
+<p class="b-recap" id="b-recap"></p>
+<div class="visually-hidden" aria-hidden="true"><label for="b-hp">Leave this empty</label><input id="b-hp" name="_honey" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="field-pair">
+<div class="field" data-field="name"><label for="b-name">Your name</label><input id="b-name" name="name" type="text" autocomplete="name" required><p class="error" id="b-name-error">Enter your name so we know who to ask for.</p></div>
+<div class="field" data-field="email"><label for="b-email">Work email</label><input id="b-email" name="email" type="email" autocomplete="email" required><p class="error" id="b-email-error">Enter an email address like name@company.com.</p></div>
+</div>
+<div class="field-pair">
+<div class="field"><label for="b-company">Business name <span class="optional">(optional)</span></label><input id="b-company" name="company" type="text" autocomplete="organization"></div>
+<div class="field"><label for="b-phone">Phone <span class="optional">(optional)</span></label><input id="b-phone" name="phone" type="tel" autocomplete="tel"></div>
+</div>
+<div class="field"><label for="b-message">Anything we should know? <span class="optional">(optional)</span></label><textarea id="b-message" name="message"></textarea></div>
+<p class="consent">Your picks and price estimate are sent with this request. We only use your details to contact you about your package. See our <a href="privacy.html">privacy policy</a>.</p>
+<p class="form-error" id="b-form-error" role="alert" hidden></p>
+<div class="actions" style="margin-top:0"><button class="btn btn-primary" type="submit" id="b-submit">Send my package</button></div>
+</form>
+</div>
+</section>
+
 <section class="wrap section" aria-labelledby="h-levels" style="padding-bottom:40px">
 <h2 class="h2" id="h-levels" style="font-size:clamp(30px,3.6vw,44px);margin-bottom:12px">How the tiers compare</h2>
 <p class="muted" style="margin:0;max-width:620px">Every tier gets the same care. Higher tiers get more change time, faster replies and regular planning.</p>
@@ -95,7 +120,8 @@
 <div class="faq"><details open><summary>What does the monthly fee cover?</summary><p>Hosting, 24/7 monitoring, fixes when an app you use changes, your monthly results report and your change time.</p></details>
 <details><summary>Do I need to buy new software?</summary><p>Usually not. We connect the tools you already use. Text messages and AI usage have small costs, which we pass on at cost.</p></details>
 <details><summary>Can I start small and upgrade later?</summary><p>Yes. Start on Starter and move up any time. You only pay the difference in setup fees.</p></details>
-<details><summary>Can I combine packages?</summary><p>Yes. Upside Complete bundles all three Growth tiers for $2,000 less on setup and $200 less a month.</p></details>
+<details><summary>Can I combine packages?</summary><p>Yes. Upside Complete bundles all three Growth tiers for $2,000 less on setup and $200 less a month. Or <a href="#custom">build your own</a> from any features in any area.</p></details>
+<details><summary>How is a custom package priced?</summary><p>Each feature has its own setup and monthly price, and you add a support level on top. Picking feature by feature costs a little more than a ready-made tier, so if a tier or Upside Complete covers your picks for less, the builder tells you.</p></details>
 <details><summary>How long does setup take?</summary><p>Starter tiers usually go live within two to three weeks of your workflow map call. Growth takes three to five weeks and Scale four to eight, launched in stages so the highest-value automations start working first.</p></details>
 <details><summary>Can I cancel?</summary><p>Yes. After your first three months, the monthly fee is month to month and you can cancel with 30 days’ notice. The automations live in your accounts, so if you leave we hand over everything we built, with written documentation.</p></details>
 </div>
@@ -115,6 +141,7 @@
 <a href="packages.html#office">Back Office Autopilot</a>
 <a href="packages.html#care">Customer Care Hub</a>
 <a href="packages.html#complete">Upside Complete</a>
+<a href="packages.html#custom">Build your own</a>
 </nav>
 <nav class="footer-col" aria-label="Company">
 <strong>Company</strong>
@@ -127,5 +154,6 @@
 <div class="wrap footer-base">© <span data-year>2026</span> Upside Systems</div>
 </footer>
 <script src="assets/site.js" defer></script>
+<script src="assets/builder.js" defer></script>
 </body>
 </html>
