@@ -618,7 +618,7 @@ html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
 .cookie-open .b-bar{display:none}
 
 /* Footer button that looks like the footer links */
-.footer-link{background:none;border:0;padding:0;font:inherit;color:var(--on-dark);min-height:36px;display:inline-flex;align-items:center;cursor:pointer;text-align:left}
+.footer-link{background:none;border:0;padding:0;font:inherit;text-decoration:underline;color:var(--on-dark);min-height:36px;display:inline-flex;align-items:center;cursor:pointer;text-align:left}
 .footer-link:hover{color:var(--yellow)}
 
 /* Analytics consent banner */
@@ -635,3 +635,8 @@ html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
 .cookie-banner .btn-outline:hover{background:var(--white);color:var(--ink)}
 .link-button{background:none;border:0;padding:0;font:inherit;color:var(--green);text-decoration:underline;cursor:pointer}
 .link-button:hover{color:var(--ink)}
+
+/* Short note under a call to action, and a call to action closing a section */
+.cta-note{margin:14px 0 0;font-size:15px;color:var(--muted);font-weight:600}
+.after-cta{margin:36px 0 0}
+.pkg-intro .link-strong{align-self:flex-start}
