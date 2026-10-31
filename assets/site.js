@@ -133,7 +133,7 @@
     banner.className = "cookie-banner";
     banner.setAttribute("aria-labelledby", "cookie-h");
     var choice = getChoice();
-    banner.innerHTML = '<div class="wrap cookie-in"><div><h2 id="cookie-h">Your privacy choice</h2>' +
+    banner.innerHTML = '<div class="wrap cookie-in"><div><p class="cookie-title" id="cookie-h">Your privacy choice</p>' +
       (gpc ? '<p>Your browser sends a Global Privacy Control signal, so analytics cookies stay off and we don’t share your data. Nothing else to do.</p>'
            : '<p>We’d like to use Google Analytics cookies to see which pages are useful. They stay off unless you accept. We don’t use advertising cookies or sell your data.' +
              (choice ? ' You currently have analytics <strong>' + (choice === "granted" ? "on" : "off") + '</strong>.' : '') +

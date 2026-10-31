@@ -625,7 +625,7 @@ html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
 .cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);color:var(--white);border-top:3px solid var(--yellow)}
 .cookie-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-top:18px;padding-bottom:18px}
 .cookie-in > div:first-child{flex:1 1 480px;min-width:0}
-.cookie-banner h2{margin:0 0 4px;font-size:18px;font-weight:800}
+.cookie-banner .cookie-title{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--white)}
 .cookie-banner p{margin:0;font-size:15px;color:var(--on-dark)}
 .cookie-banner p strong{color:var(--white)}
 .cookie-banner a{color:var(--yellow)}

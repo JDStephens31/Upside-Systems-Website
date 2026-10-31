@@ -114,7 +114,7 @@ var SECTORS = [
     lg.appendChild(el("span", { "class": "name" }, s.pkg));
     fs.appendChild(lg);
     var head = el("div", { "class": "b-head" });
-    var count = el("p", { "class": "b-count", "aria-live": "polite" });
+    var count = el("p", { "class": "b-count" });
     s.countEl = count;
     head.appendChild(count);
     var fill = el("div", { "class": "b-fill", role: "group", "aria-label": "Start " + s.pkg + " from a tier" });
@@ -137,7 +137,8 @@ var SECTORS = [
     s.items.forEach(function (it) {
       var li = el("li");
       var lab = el("label", { "class": "b-item" });
-      var box = el("input", { type: "checkbox", value: it.id });
+      // The feature is the checkbox's name; tier and price are read after it as a description
+      var box = el("input", { type: "checkbox", value: it.id, "aria-labelledby": "bn-" + it.id, "aria-describedby": "bm-" + it.id });
       boxes[it.id] = box;
       box.addEventListener("change", function () {
         // Keep dependencies whole: adding an item adds what it needs, removing a need removes what uses it
@@ -147,9 +148,10 @@ var SECTORS = [
       });
       lab.appendChild(box);
       var text = el("span", { "class": "b-text" });
-      text.appendChild(el("span", { "class": "b-name" }, it.name));
-      var meta = el("span", { "class": "b-meta" });
+      text.appendChild(el("span", { "class": "b-name", id: "bn-" + it.id }, it.name));
+      var meta = el("span", { "class": "b-meta", id: "bm-" + it.id });
       meta.appendChild(el("span", { "class": "b-tier t" + it.level }, TIER_NAMES[it.level - 1]));
+      meta.appendChild(el("span", { "class": "visually-hidden" }, " tier, "));
       meta.appendChild(document.createTextNode(money.format(it.setup) + " setup · " + money.format(it.monthly) + " a month"));
       if (it.needs) meta.appendChild(el("span", { "class": "b-needs" }, "Comes with: " + ITEMS[it.needs].name));
       text.appendChild(meta);
