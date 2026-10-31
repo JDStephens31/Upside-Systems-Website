@@ -122,7 +122,7 @@
   function closeBanner(returnFocus) {
     if (!banner) return;
     banner.remove(); banner = null;
-    document.body.classList.remove("cookie-open");
+    document.body.classList.remove("choice-open");
     document.documentElement.style.removeProperty("--overlay-h");
     if (returnFocus && closeBanner.from) closeBanner.from.focus();
   }
@@ -130,15 +130,15 @@
     if (banner) { banner.querySelector("button").focus(); return; }
     closeBanner.from = from || null;
     banner = document.createElement("section");
-    banner.className = "cookie-banner";
-    banner.setAttribute("aria-labelledby", "cookie-h");
+    banner.className = "upside-choice";
+    banner.setAttribute("aria-labelledby", "upside-choice-h");
     var choice = getChoice();
-    banner.innerHTML = '<div class="wrap cookie-in"><div><p class="cookie-title" id="cookie-h">Your privacy choice</p>' +
+    banner.innerHTML = '<div class="wrap upside-choice-in"><div><p class="upside-choice-title" id="upside-choice-h">Your privacy choice</p>' +
       (gpc ? '<p>Your browser sends a Global Privacy Control signal, so analytics cookies stay off and we don’t share your data. Nothing else to do.</p>'
            : '<p>We’d like to use Google Analytics cookies to see which pages are useful. They stay off unless you accept. We don’t use advertising cookies or sell your data.' +
              (choice ? ' You currently have analytics <strong>' + (choice === "granted" ? "on" : "off") + '</strong>.' : '') +
              ' <a href="/privacy.html#cookies">Privacy policy</a></p>') +
-      '</div><div class="cookie-actions">' +
+      '</div><div class="upside-choice-actions">' +
       (gpc ? '<button class="btn btn-primary btn-sm" type="button" data-c="close">OK</button>'
            : '<button class="btn btn-outline btn-sm" type="button" data-c="yes">Accept analytics</button>' +
              '<button class="btn btn-outline btn-sm" type="button" data-c="no">Decline</button>') +
@@ -151,7 +151,7 @@
     // Early in the page so screen reader users meet it first; it still shows at the bottom of the screen
     var skip = document.querySelector(".skip");
     document.body.insertBefore(banner, skip ? skip.nextSibling : document.body.firstChild);
-    document.body.classList.add("cookie-open");
+    document.body.classList.add("choice-open");
     // Keep focused elements clear of the banner (WCAG 2.4.11)
     document.documentElement.style.setProperty("--overlay-h", banner.offsetHeight + "px");
     if (from) banner.querySelector("button").focus();

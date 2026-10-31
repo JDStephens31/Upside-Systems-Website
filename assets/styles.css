@@ -611,28 +611,28 @@ details.assumptions li{margin-bottom:6px}
 .audit{overflow-x:clip}
 
 /* Focus rings stay visible on dark backgrounds (3:1 against the background) */
-.topbar :focus-visible,.site-footer :focus-visible,.bg-ink :focus-visible,.b-bar :focus-visible,.cookie-banner :focus-visible{outline-color:var(--yellow)}
+.topbar :focus-visible,.site-footer :focus-visible,.bg-ink :focus-visible,.b-bar :focus-visible,.upside-choice :focus-visible{outline-color:var(--yellow)}
 /* Fixed bars at the bottom never cover the focused element */
 html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
-.cookie-open{padding-bottom:var(--overlay-h,0px)}
-.cookie-open .b-bar{display:none}
+.choice-open{padding-bottom:var(--overlay-h,0px)}
+.choice-open .b-bar{display:none}
 
 /* Footer button that looks like the footer links */
 .footer-link{background:none;border:0;padding:0;font:inherit;text-decoration:underline;color:var(--on-dark);min-height:36px;display:inline-flex;align-items:center;cursor:pointer;text-align:left}
 .footer-link:hover{color:var(--yellow)}
 
 /* Analytics consent banner */
-.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);color:var(--white);border-top:3px solid var(--yellow)}
-.cookie-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-top:18px;padding-bottom:18px}
-.cookie-in > div:first-child{flex:1 1 480px;min-width:0}
-.cookie-banner .cookie-title{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--white)}
-.cookie-banner p{margin:0;font-size:15px;color:var(--on-dark)}
-.cookie-banner p strong{color:var(--white)}
-.cookie-banner a{color:var(--yellow)}
-.cookie-banner a:hover{color:var(--white)}
-.cookie-actions{display:flex;flex-wrap:wrap;gap:10px}
-.cookie-banner .btn-outline{color:var(--white);border-color:var(--white)}
-.cookie-banner .btn-outline:hover{background:var(--white);color:var(--ink)}
+.upside-choice{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);color:var(--white);border-top:3px solid var(--yellow)}
+.upside-choice-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-top:18px;padding-bottom:18px}
+.upside-choice-in > div:first-child{flex:1 1 480px;min-width:0}
+.upside-choice .upside-choice-title{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--white)}
+.upside-choice p{margin:0;font-size:15px;color:var(--on-dark)}
+.upside-choice p strong{color:var(--white)}
+.upside-choice a{color:var(--yellow)}
+.upside-choice a:hover{color:var(--white)}
+.upside-choice-actions{display:flex;flex-wrap:wrap;gap:10px}
+.upside-choice .btn-outline{color:var(--white);border-color:var(--white)}
+.upside-choice .btn-outline:hover{background:var(--white);color:var(--ink)}
 .link-button{background:none;border:0;padding:0;font:inherit;color:var(--green);text-decoration:underline;cursor:pointer}
 .link-button:hover{color:var(--ink)}
 
