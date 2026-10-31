@@ -3,6 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Analytics consent. Google Analytics is off for everyone until they choose "Accept analytics",
+   and never loads for browsers sending Global Privacy Control. Until then gtag.js isn't fetched,
+   so no cookies are set and nothing is sent to Google. The banner lives in assets/site.js. */
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+// No Google signals, ad personalization or ad identifiers, whatever the Analytics account settings say
+gtag("set", "allow_google_signals", false);
+gtag("set", "allow_ad_personalization_signals", false);
+gtag("set", "ads_data_redaction", true);
+window.upsideAnalytics = function () {
+  if (window.upsideAnalytics.on || navigator.globalPrivacyControl === true) return;
+  window.upsideAnalytics.on = true;
+  gtag("consent", "update", { analytics_storage: "granted" });
+  var s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=G-LYQRHSPG2B";
+  document.head.appendChild(s);
+};
+try { if (localStorage.getItem("upside-consent") === "granted") window.upsideAnalytics(); } catch (e) {}
+</script>
+<!-- Google tag (gtag.js) -->
+<!-- gtag.js itself is loaded by window.upsideAnalytics above, only after consent -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LYQRHSPG2B');
+</script>
 <title>Privacy policy | Upside Systems</title>
 <meta name="description" content="How Upside Systems collects and uses your information.">
 <meta property="og:title" content="Privacy policy | Upside Systems">
@@ -14,15 +44,13 @@
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0B2E1F">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/styles.css">
 <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: no-preference)").matches&&"IntersectionObserver" in window)document.documentElement.classList.add("motion")</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="topbar"><div class="wrap"><span>Now booking free audits for <span data-month>this month</span>. Results in less than 5 minutes.</span><a href="audit.html">Start yours</a></div></div>
+<div class="topbar" role="region" aria-label="Announcement"><div class="wrap"><span>Now booking free audits for <span data-month>this month</span>. Results in less than 5 minutes.</span><a href="audit.html">Start yours</a></div></div>
 <header class="site-header"><div class="wrap header-in">
 <a class="brand" href="index.html" aria-label="Upside Systems home"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#127A4A"/><path d="M14 34 L24 24 L34 34" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24 L24 14 L34 24" fill="none" stroke="#FFD23F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Upside Systems</span></a>
 <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-label">Menu</span></button>
@@ -35,14 +63,17 @@
 </div></header>
 <main id="main"><section class="wrap section prose">
 <h1 class="h1" style="font-size:clamp(40px,5vw,64px)">Privacy policy</h1>
-<p>Last updated: October 30, 2026</p>
-<h2>Who we are</h2><p>Upside Systems LLC (“Upside Systems”, “we”, “us”) builds and maintains business automations for small businesses. If you have any questions about this policy or your information, contact us at <a href="mailto:consultation@upsidesys.com">consultation@upsidesys.com</a>.</p>
-<h2>What we collect</h2><p>When you use our free audit, we collect the answers you enter: hours spent on tasks, your hourly cost, yearly revenue, team size and expected growth. If you book a consultation, we also collect your name, email, and optionally your business name, phone number and message.</p>
-<h2>How we use it</h2><p>We use this information to prepare for and follow up on your consultation, and to send you your results. We don’t sell your information.</p>
-<h2>Who we share it with</h2><p>We use a small number of trusted services to run our business: FormSubmit (which delivers booking requests to our inbox), n8n (workflow automation), Google Workspace (email and documents), HubSpot (customer records) and Cal.com (scheduling calls). They process your information on our behalf and only for the purposes above. We may also share information when the law requires it.</p>
-<h2>How long we keep it</h2><p>Your calculator answers stay in your browser unless you send them to us. If you book a consultation and don’t become a client, we delete your details and audit answers after 12 months. For clients, we keep records for as long as we work together, and afterwards for as long as tax and accounting rules require.</p>
-<h2>Your rights</h2><p>You can ask to see, correct or delete the information we hold about you, or ask us to stop contacting you, by emailing <a href="mailto:consultation@upsidesys.com">consultation@upsidesys.com</a>. We reply within 30 days. Depending on where you live, you may have further rights under laws such as the GDPR or the CCPA, including the right to complain to your local data protection authority.</p>
-<h2>Cookies and analytics</h2><p>This site uses no tracking cookies and no advertising pixels. Fonts are loaded from Google Fonts, so your browser shares your IP address with Google when a page loads. Our hosting provider keeps standard server logs, such as IP address and pages requested, for security and troubleshooting.</p>
+<p>Last updated: October 31, 2026</p>
+<h2>Who we are</h2><p>Upside Systems LLC (“Upside Systems”, “we”, “us”) builds and maintains business automations for small businesses. We are responsible for the personal information described here. If you have any questions about this policy or your information, contact us at <a href="mailto:consultation@upsidesys.com">consultation@upsidesys.com</a>.</p>
+<h2>What we collect</h2><p>When you use our free audit, we collect the answers you enter: hours spent on tasks, your hourly cost, yearly revenue, team size and expected growth. When you use the package builder, we collect the features and support level you pick. If you send either to us, we also collect your name and email, and optionally your business name, phone number and message.</p><p>If you allow analytics, we also collect how the site is used, as described under <a href="#cookies">Cookies and analytics</a>.</p>
+<h2>How we use it, and why we’re allowed to</h2><p>We use the details you send us to reply to you, prepare for and follow up on your consultation, and price the package you asked about. We do this because you asked us to (taking steps before a contract) and because we have a legitimate interest in answering business enquiries. We use analytics only with your consent, to understand which pages are useful and improve the site.</p><p>We don’t sell your personal information, and we don’t share it for cross-context behavioral advertising.</p>
+<h2>Who we share it with</h2><p>We use a small number of trusted services to run our business: FormSubmit (which delivers audit and package requests to our inbox), n8n (workflow automation), Google Workspace (email and documents), Google Analytics (site usage, only if allowed), HubSpot (customer records) and Cal.com (scheduling calls). They process your information on our behalf and only for the purposes above. Some of them are based in the United States; where we transfer information from the EEA, UK or Switzerland, we rely on the EU-U.S. Data Privacy Framework (and its UK and Swiss extensions) or standard contractual clauses. We may also share information when the law requires it.</p>
+<h2>How long we keep it</h2><p>Your calculator answers and package picks stay in your browser unless you send them to us. If you contact us and don’t become a client, we delete your details and answers after 12 months. For clients, we keep records for as long as we work together, and afterwards for as long as tax and accounting rules require. Google Analytics data is kept for no more than 14 months.</p>
+<h2 id="cookies">Cookies and analytics</h2><p>We use Google Analytics 4, provided by Google LLC, to count visits and see which pages are used. It sets first-party cookies named <code>_ga</code> and <code>_ga_LYQRHSPG2B</code>, which last up to two years, and records pages viewed, the site that referred you, your approximate location (city level), and your device and browser type. Google Analytics 4 doesn’t log or store IP addresses. The site switches off Google signals, ad personalization and advertising cookies, and we don’t combine analytics with anything that identifies you.</p>
+<p>Analytics is off unless you choose “Accept analytics”. Until you do, Google Analytics isn’t loaded at all, no analytics cookies are set and nothing is sent to Google. You can change your choice at any time with <button class="link-button" type="button" data-cookie-settings>Cookie settings</button>, also in the footer of every page. Declining also deletes the analytics cookies already set. If your browser sends a Global Privacy Control signal, we treat it as a request to opt out and analytics stays off.</p>
+<p>The site also uses your browser’s local storage, not cookies, to remember your cookie choice, your audit answers and your package picks on this device. That information isn’t sent to us unless you submit it. Fonts and all other files are served from our own site. Our hosting provider keeps standard server logs, such as IP address and pages requested, for security and troubleshooting.</p>
+<h2>Your rights</h2><p>You can ask to see, correct, delete or get a copy of the information we hold about you, object to or restrict how we use it, withdraw consent at any time, or ask us to stop contacting you. Email <a href="mailto:consultation@upsidesys.com">consultation@upsidesys.com</a> and we’ll reply within 30 days. We won’t treat you differently for using these rights.</p><p>If you’re in the EEA, UK or Switzerland, you can also complain to your local data protection authority. If you’re a California resident, you have the rights above under the CCPA as amended by the CPRA, including the right to opt out of the sale or sharing of personal information (we do neither) and to limit use of sensitive personal information (we don’t collect any). You can use an authorized agent to make a request; we may need to verify your identity first.</p>
+<h2>Children</h2><p>This site is for businesses and isn’t directed at children. We don’t knowingly collect information from anyone under 16.</p>
 <h2>Client data</h2><p>When we build automations for a client, their data stays in the tools they already use. We access only what each automation needs, under a written agreement, and clients can remove our access at any time.</p>
 <h2>Changes to this policy</h2><p>If we change this policy, we’ll update the date at the top of this page. For significant changes, we’ll tell clients by email.</p>
 </section></main>
@@ -67,6 +98,8 @@
 <a href="about.html">About</a>
 <a href="audit.html">Free audit</a>
 <a href="privacy.html">Privacy policy</a>
+<a href="accessibility.html">Accessibility</a>
+<button class="footer-link" type="button" data-cookie-settings>Cookie settings</button>
 </nav>
 </div>
 <div class="wrap footer-base">© <span data-year>2026</span> Upside Systems</div>

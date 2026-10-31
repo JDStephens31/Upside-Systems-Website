@@ -95,6 +95,72 @@
     window.addEventListener("resize", function () { clearTimeout(flowT); flowT = setTimeout(redraw, 120); });
   }
 
+  // Analytics consent. Each page's head keeps analytics off and defines upsideAnalytics() to load it;
+  // this records the visitor's choice.
+  // Global Privacy Control counts as a standing "no", so those visitors never see the banner.
+  var gpc = navigator.globalPrivacyControl === true, banner = null;
+  function getChoice() { try { return localStorage.getItem("upside-consent"); } catch (e) { return null; } }
+  function choose(granted) {
+    try { localStorage.setItem("upside-consent", granted ? "granted" : "denied"); } catch (e) {}
+    if (granted) { window["ga-disable-G-LYQRHSPG2B"] = false; if (window.upsideAnalytics) upsideAnalytics(); }
+    if (!granted) {
+      // Google's opt-out flag stops an already-loaded tag from sending anything more
+      window["ga-disable-G-LYQRHSPG2B"] = true;
+      if (window.gtag) gtag("consent", "update", { analytics_storage: "denied" });
+    }
+    if (!granted) {
+      // Remove analytics cookies already set on this domain
+      document.cookie.split(";").forEach(function (c) {
+        var name = c.split("=")[0].trim();
+        if (/^_ga/.test(name)) [location.hostname, "." + location.hostname.replace(/^www\./, "")].forEach(function (d) {
+          document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + d;
+        });
+      });
+    }
+    closeBanner(true);
+  }
+  function closeBanner(returnFocus) {
+    if (!banner) return;
+    banner.remove(); banner = null;
+    document.body.classList.remove("cookie-open");
+    document.documentElement.style.removeProperty("--overlay-h");
+    if (returnFocus && closeBanner.from) closeBanner.from.focus();
+  }
+  function openBanner(from) {
+    if (banner) { banner.querySelector("button").focus(); return; }
+    closeBanner.from = from || null;
+    banner = document.createElement("section");
+    banner.className = "cookie-banner";
+    banner.setAttribute("aria-labelledby", "cookie-h");
+    var choice = getChoice();
+    banner.innerHTML = '<div class="wrap cookie-in"><div><h2 id="cookie-h">Your privacy choice</h2>' +
+      (gpc ? '<p>Your browser sends a Global Privacy Control signal, so analytics cookies stay off and we don’t share your data. Nothing else to do.</p>'
+           : '<p>We’d like to use Google Analytics cookies to see which pages are useful. They stay off unless you accept. We don’t use advertising cookies or sell your data.' +
+             (choice ? ' You currently have analytics <strong>' + (choice === "granted" ? "on" : "off") + '</strong>.' : '') +
+             ' <a href="/privacy.html#cookies">Privacy policy</a></p>') +
+      '</div><div class="cookie-actions">' +
+      (gpc ? '<button class="btn btn-primary btn-sm" type="button" data-c="close">OK</button>'
+           : '<button class="btn btn-outline btn-sm" type="button" data-c="yes">Accept analytics</button>' +
+             '<button class="btn btn-outline btn-sm" type="button" data-c="no">Decline</button>') +
+      '</div></div>';
+    banner.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-c]"); if (!b) return;
+      var c = b.getAttribute("data-c");
+      if (c === "close") closeBanner(true); else choose(c === "yes");
+    });
+    // Early in the page so screen reader users meet it first; it still shows at the bottom of the screen
+    var skip = document.querySelector(".skip");
+    document.body.insertBefore(banner, skip ? skip.nextSibling : document.body.firstChild);
+    document.body.classList.add("cookie-open");
+    // Keep focused elements clear of the banner (WCAG 2.4.11)
+    document.documentElement.style.setProperty("--overlay-h", banner.offsetHeight + "px");
+    if (from) banner.querySelector("button").focus();
+  }
+  document.querySelectorAll("[data-cookie-settings]").forEach(function (b) {
+    b.addEventListener("click", function () { openBanner(b); });
+  });
+  if (!getChoice() && !gpc) openBanner();
+
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   document.querySelectorAll("[data-month]").forEach(function (n) { n.textContent = months[new Date().getMonth()]; });
   document.querySelectorAll("[data-year]").forEach(function (n) { n.textContent = new Date().getFullYear(); });

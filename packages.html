@@ -3,6 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Analytics consent. Google Analytics is off for everyone until they choose "Accept analytics",
+   and never loads for browsers sending Global Privacy Control. Until then gtag.js isn't fetched,
+   so no cookies are set and nothing is sent to Google. The banner lives in assets/site.js. */
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+// No Google signals, ad personalization or ad identifiers, whatever the Analytics account settings say
+gtag("set", "allow_google_signals", false);
+gtag("set", "allow_ad_personalization_signals", false);
+gtag("set", "ads_data_redaction", true);
+window.upsideAnalytics = function () {
+  if (window.upsideAnalytics.on || navigator.globalPrivacyControl === true) return;
+  window.upsideAnalytics.on = true;
+  gtag("consent", "update", { analytics_storage: "granted" });
+  var s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=G-LYQRHSPG2B";
+  document.head.appendChild(s);
+};
+try { if (localStorage.getItem("upside-consent") === "granted") window.upsideAnalytics(); } catch (e) {}
+</script>
+<!-- Google tag (gtag.js) -->
+<!-- gtag.js itself is loaded by window.upsideAnalytics above, only after consent -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LYQRHSPG2B');
+</script>
 <title>Packages and pricing | Upside Systems</title>
 <meta name="description" content="Fixed-price automation packages for sales, finance and customer care, each fully monitored and reported on every month.">
 <meta property="og:title" content="Packages and pricing | Upside Systems">
@@ -14,15 +44,13 @@
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0B2E1F">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/styles.css">
 <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: no-preference)").matches&&"IntersectionObserver" in window)document.documentElement.classList.add("motion")</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="topbar"><div class="wrap"><span>Now booking free audits for <span data-month>this month</span>. Results in less than 5 minutes.</span><a href="audit.html">Start yours</a></div></div>
+<div class="topbar" role="region" aria-label="Announcement"><div class="wrap"><span>Now booking free audits for <span data-month>this month</span>. Results in less than 5 minutes.</span><a href="audit.html">Start yours</a></div></div>
 <header class="site-header"><div class="wrap header-in">
 <a class="brand" href="index.html" aria-label="Upside Systems home"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#127A4A"/><path d="M14 34 L24 24 L34 34" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24 L24 14 L34 24" fill="none" stroke="#FFD23F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Upside Systems</span></a>
 <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-label">Menu</span></button>
@@ -105,7 +133,7 @@
 <section class="wrap section" aria-labelledby="h-levels" style="padding-bottom:40px">
 <h2 class="h2" id="h-levels" style="font-size:clamp(30px,3.6vw,44px);margin-bottom:12px">How the tiers compare</h2>
 <p class="muted" style="margin:0;max-width:620px">Every tier gets the same care. Higher tiers get more change time, faster replies and regular planning.</p>
-<div class="table-box"><table><thead><tr><th scope="col"><span class="visually-hidden">Service</span></th><th scope="col">Starter</th><th scope="col">Growth</th><th scope="col">Scale</th></tr></thead><tbody><tr><th scope="row">Change time each month</th><td>1 hour</td><td>3 hours</td><td>8 hours</td></tr><tr><th scope="row">Support replies</th><td>Within 2 business days</td><td>Next business day</td><td>Same business day</td></tr><tr><th scope="row">Monitoring and fixes</th><td>24/7</td><td>24/7</td><td>24/7</td></tr><tr><th scope="row">Results report</th><td>Monthly</td><td>Monthly</td><td>Monthly</td></tr><tr><th scope="row">Strategy session</th><td>Not included</td><td>Not included</td><td>Every quarter</td></tr><tr><th scope="row">Payback promise</th><td>Included</td><td>Included</td><td>Included</td></tr></tbody></table></div>
+<div class="table-box" tabindex="0" role="region" aria-label="Tier comparison table"><table><thead><tr><th scope="col"><span class="visually-hidden">Service</span></th><th scope="col">Starter</th><th scope="col">Growth</th><th scope="col">Scale</th></tr></thead><tbody><tr><th scope="row">Change time each month</th><td>1 hour</td><td>3 hours</td><td>8 hours</td></tr><tr><th scope="row">Support replies</th><td>Within 2 business days</td><td>Next business day</td><td>Same business day</td></tr><tr><th scope="row">Monitoring and fixes</th><td>24/7</td><td>24/7</td><td>24/7</td></tr><tr><th scope="row">Results report</th><td>Monthly</td><td>Monthly</td><td>Monthly</td></tr><tr><th scope="row">Strategy session</th><td>Not included</td><td>Not included</td><td>Every quarter</td></tr><tr><th scope="row">Payback promise</th><td>Included</td><td>Included</td><td>Included</td></tr></tbody></table></div>
 </section>
 
 <section class="wrap" id="promise" style="padding-bottom:96px;padding-top:40px">
@@ -149,6 +177,8 @@
 <a href="about.html">About</a>
 <a href="audit.html">Free audit</a>
 <a href="privacy.html">Privacy policy</a>
+<a href="accessibility.html">Accessibility</a>
+<button class="footer-link" type="button" data-cookie-settings>Cookie settings</button>
 </nav>
 </div>
 <div class="wrap footer-base">© <span data-year>2026</span> Upside Systems</div>

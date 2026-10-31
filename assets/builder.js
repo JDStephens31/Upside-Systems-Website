@@ -162,7 +162,7 @@ var SECTORS = [
   });
 
   /* ---- Summary: care level, totals, hints and the request button ---- */
-  var sum = el("aside", { "class": "b-summary", id: "b-summary", "aria-labelledby": "b-sum-h" });
+  var sum = el("section", { "class": "b-summary", id: "b-summary", "aria-labelledby": "b-sum-h" });
   sum.appendChild(el("h3", { id: "b-sum-h" }, "Your package"));
   var lines = el("ul", { "class": "b-lines" });
   sum.appendChild(lines);
@@ -198,7 +198,7 @@ var SECTORS = [
   host.appendChild(grid);
 
   // On phones the summary sits below the lists, so a bar keeps the running total in view
-  var bar = el("div", { "class": "b-bar", hidden: "" });
+  var bar = el("div", { "class": "b-bar", role: "region", "aria-label": "Package total", hidden: "" });
   var barText = el("span");
   var barBtn = el("button", { type: "button", "class": "btn btn-primary btn-sm" }, "Review");
   barBtn.addEventListener("click", function () { sum.scrollIntoView({ behavior: "smooth", block: "start" }); sum.querySelector("h3").focus(); });
@@ -211,7 +211,12 @@ var SECTORS = [
     new IntersectionObserver(function (es) { builderVisible = es[0].isIntersecting; showBar(); }).observe(picks);
   }
   var lastCount = 0;
-  function showBar() { bar.hidden = !(lastCount && builderVisible && !sumVisible); }
+  function showBar() {
+    bar.hidden = !(lastCount && builderVisible && !sumVisible);
+    // Tell the page how tall the bar is so focused items scroll clear of it
+    if (bar.hidden || getComputedStyle(bar).display === "none") document.documentElement.style.removeProperty("--bar-h");
+    else document.documentElement.style.setProperty("--bar-h", bar.offsetHeight + "px");
+  }
 
   function calc() {
     var setup = 0, monthly = 0, chosen = [];

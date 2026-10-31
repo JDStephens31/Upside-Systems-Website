@@ -3,7 +3,7 @@
   --white:#FFFFFF; --mist:#F5F8F4; --green:#127A4A; --green-hover:#0E623B;
   --ink:#0B2E1F; --muted:#4A5E53; --rule:#DCE5DF; --rule-mid:#C9D8CF; --rule-dark:#9DB3A5;
   --yellow:#FFD23F; --yellow-soft:#FFF6CC; --yellow-line:#F0D35A; --pale-green:#EEF3EF;
-  --on-dark:#C9D8CF; --base-line:#8A9A90; --danger:#B42318;
+  --on-dark:#C9D8CF; --base-line:#7A9184; --field-line:#728B7D; --danger:#B42318;
   --font:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono","Courier New",monospace;
   --script:Caveat,"Segoe Print",cursive;
@@ -53,7 +53,7 @@ h1,h2,h3{text-wrap:balance}
 /* Top bar + header */
 .topbar{background:var(--ink);color:var(--white);font-size:15px}
 .topbar .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;padding-top:10px;padding-bottom:10px}
-.topbar a{color:var(--yellow);font-weight:700}
+.topbar a{color:var(--yellow);font-weight:700;display:inline-flex;align-items:center;min-height:24px}
 .topbar a:hover{color:var(--white)}
 .site-header{border-bottom:1.5px solid var(--ink);background:var(--white);position:relative;z-index:20}
 .header-in{display:flex;align-items:center;justify-content:space-between;gap:12px 32px;padding-top:16px;padding-bottom:16px}
@@ -216,7 +216,7 @@ h1,h2,h3{text-wrap:balance}
 .price-row .what{color:var(--muted)}
 .price-row .go{color:var(--green);font-weight:700;margin-left:8px}
 
-.monogram{flex-direction:column;gap:18px;border:0;background:var(--green) !important;color:var(--white);position:relative;overflow:hidden;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px) !important;background-size:32px 32px !important;border-radius:6px}
+.monogram{flex-direction:column;gap:18px;border:0;background:var(--green) !important;color:var(--white);position:relative;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px) !important;background-size:32px 32px !important;border-radius:6px}
 .monogram span{font-size:clamp(64px,8vw,104px);white-space:nowrap;font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--yellow)}
 .monogram span em{font-style:normal;color:var(--white);opacity:.55;margin:0 .12em;font-weight:600}
 .monogram small{font-size:16px;line-height:1.4;color:var(--white);font-weight:600}
@@ -306,7 +306,7 @@ h1,h2,h3{text-wrap:balance}
 .b-items{list-style:none;margin:0;padding:0}
 .b-item{display:flex;gap:14px;align-items:flex-start;padding:14px 24px;border-top:1px solid #E6EDE8;cursor:pointer}
 .b-item:hover{background:var(--mist)}
-.b-item input{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--green);cursor:pointer}
+.b-item input{flex:none;width:24px;height:24px;margin:1px 0 0;accent-color:var(--green);cursor:pointer}
 .b-item:has(input:checked){background:#FFFBE6}
 .b-text{display:flex;flex-direction:column;gap:4px;min-width:0}
 .b-name{font-size:17px}
@@ -394,7 +394,7 @@ h1,h2,h3{text-wrap:balance}
 .row .hint{display:block;font-size:15px;color:var(--muted)}
 .row.has-hours label{font-weight:600}
 .row.rate{background:var(--mist);border-top:0;padding-top:20px;padding-bottom:20px;flex-wrap:wrap}
-.num{width:88px;flex:none;min-height:44px;text-align:right;font:inherit;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--white);border:1.5px solid var(--rule-mid);border-radius:6px;padding:0 12px}
+.num{width:88px;flex:none;min-height:44px;text-align:right;font:inherit;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--white);border:1.5px solid var(--field-line);border-radius:6px;padding:0 12px}
 .num:focus{outline:3px solid var(--green);outline-offset:1px;border-color:var(--green)}
 .row.has-hours .num{border-color:var(--green);background:#FFFBE6}
 .affix{display:inline-flex;align-items:center;flex:none;border:1.5px solid var(--green);border-radius:6px;background:var(--white);min-height:44px;padding:0 10px}
@@ -469,7 +469,7 @@ details.assumptions li{margin-bottom:6px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-weight:600}
 .field .optional{font-weight:400;color:var(--muted)}
-.field input,.field textarea{min-height:50px;border:1.5px solid var(--rule-dark);border-radius:6px;padding:0 14px;font:inherit;color:var(--ink);background:var(--white)}
+.field input,.field textarea{min-height:50px;border:1.5px solid var(--field-line);border-radius:6px;padding:0 14px;font:inherit;color:var(--ink);background:var(--white)}
 .field textarea{padding:12px 14px;min-height:110px;resize:vertical}
 .field input:focus,.field textarea:focus{outline:3px solid var(--green);outline-offset:1px;border-color:var(--green)}
 .field.invalid input{border-color:var(--danger)}
@@ -609,3 +609,29 @@ details.assumptions li{margin-bottom:6px}
 @keyframes pop{50%{transform:scale(1.08)}}
 @media (prefers-reduced-motion:reduce){.step.enter-fwd,.step.enter-back{animation:none}.btn:hover{transform:none}.progress li::after{transition:none}}
 .audit{overflow-x:clip}
+
+/* Focus rings stay visible on dark backgrounds (3:1 against the background) */
+.topbar :focus-visible,.site-footer :focus-visible,.bg-ink :focus-visible,.b-bar :focus-visible,.cookie-banner :focus-visible{outline-color:var(--yellow)}
+/* Fixed bars at the bottom never cover the focused element */
+html{scroll-padding-bottom:calc(var(--overlay-h,0px) + var(--bar-h,0px) + 16px)}
+.cookie-open{padding-bottom:var(--overlay-h,0px)}
+.cookie-open .b-bar{display:none}
+
+/* Footer button that looks like the footer links */
+.footer-link{background:none;border:0;padding:0;font:inherit;color:var(--on-dark);min-height:36px;display:inline-flex;align-items:center;cursor:pointer;text-align:left}
+.footer-link:hover{color:var(--yellow)}
+
+/* Analytics consent banner */
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);color:var(--white);border-top:3px solid var(--yellow)}
+.cookie-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-top:18px;padding-bottom:18px}
+.cookie-in > div:first-child{flex:1 1 480px;min-width:0}
+.cookie-banner h2{margin:0 0 4px;font-size:18px;font-weight:800}
+.cookie-banner p{margin:0;font-size:15px;color:var(--on-dark)}
+.cookie-banner p strong{color:var(--white)}
+.cookie-banner a{color:var(--yellow)}
+.cookie-banner a:hover{color:var(--white)}
+.cookie-actions{display:flex;flex-wrap:wrap;gap:10px}
+.cookie-banner .btn-outline{color:var(--white);border-color:var(--white)}
+.cookie-banner .btn-outline:hover{background:var(--white);color:var(--ink)}
+.link-button{background:none;border:0;padding:0;font:inherit;color:var(--green);text-decoration:underline;cursor:pointer}
+.link-button:hover{color:var(--ink)}
